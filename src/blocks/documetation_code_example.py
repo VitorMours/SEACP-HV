@@ -16,6 +16,8 @@ def image_capture_code():
             Com isso, temos que a captura vai ser responsável por converter a imagem para o modelo correto e necessário para que o funcionamento 
             do projeto se dê de forma correta, e esse modelo é o BGR (Blue, Green, Red), que é o modelo padrão do OpenCV para representação 
             de imagens coloridas.
+            
+            
         """)
 
 
