@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 const processing = ref(false);
 const file = ref<File | null>(null);
+const showModal =ref(false);
+const result = reactive({
+    filepath:"", 
+    name:"", 
+    mimetype:""
+});
 
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
@@ -29,13 +35,20 @@ async function toggleProcessing() {
             method: 'POST',
             body: formData,
         })
-
         if (!response.ok) {
             throw new Error('Erro ao processar arquivo')
         }
 
-        const result = await response.json()
-        console.log('Resultado:', result)
+        const resultData = await response.json()
+        console.log('Resultado:', resultData)
+        Object.assign(result, {
+            filepath: resultData.filepath,
+            mimetype: resultData.mimetype,
+            name: resultData.name
+        })
+        
+        showModal.value = true;
+
 
     } catch (error) {
         console.error(error)
@@ -63,5 +76,20 @@ async function toggleProcessing() {
             </div>
         </section>
     </main>
-
+    <dialog id="success_ingestion_dialog" :open="showModal" class="modal">
+        <div class="modal-box">
+            <h3 class="text-xl font-bold"> Imagem processada com sucesso!</h3>
+            <p class="py-4">As imagens foram processadas tendo em vista que elas possuem os seguintes metadados: </p>
+            <p class="py-2"><strong>Filepath: </strong> {{ result.filepath }}</p>
+            <p class="py-2"><strong>Name: </strong>{{ result.name }}</p>
+            <p class="py-2"><strong>Mimetype: </strong>{{ result.mimetype }}</p>
+            
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 </template>
