@@ -15,7 +15,6 @@ function handleFileChange(event: Event) {
     if (target.files && target.files.length > 0) {
         file.value = target.files[0]!;
     }
-
 }
 
 async function toggleProcessing() {
@@ -85,9 +84,10 @@ async function toggleProcessing() {
             <p class="py-2"><strong>Mimetype: </strong>{{ result.mimetype }}</p>
             
             <div class="modal-action">
-                <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn">Close</button>
+                <form method="dialog ">
+                    <!-- Adicionar isso daqui para mostrar o processamento da imagem:  @click.prevent="showProcessing" -->
+                    <button class="m-2 btn btn-primary">Verificar Processamento</button>
+                    <button class="m-2 btn">Close</button>
                 </form>
             </div>
         </div>

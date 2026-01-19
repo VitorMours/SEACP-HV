@@ -1,10 +1,18 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-    let menuOpen = ref(false);
+import { ref } from 'vue';
+import { useRouter } from "vue-router";
 
-    function toggleMenu(){
-        menuOpen.value = !menuOpen.value;
-    }
+let menuOpen = ref(false);
+const router = useRouter();
+
+function navigateTo(path: string) {
+    router.push(path)
+    menuOpen.value = false // Fecha o menu após navegar
+}
+
+function toggleMenu() {
+    menuOpen.value = !menuOpen.value;
+}
 
 </script>
 
@@ -14,21 +22,29 @@
             <button class="btn btn-square btn-ghost" @click="toggleMenu">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     class="inline-block h-5 w-5 stroke-current">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        :d="menuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'">
                     </path>
                 </svg>
             </button>
         </div>
         <div class="flex-1">
-            <a class="font-bold text-xl" href="">SEACPHV</a>
+            <a href="/" @click.prevent="navigateTo('/')" class="font-bold text-xl hover:no-underline">
+                SEACPHV
+            </a>
         </div>
     </div>
+
     <div v-if="menuOpen" class="bg-base-200 p-4 flex">
         <ul class="menu w-full">
-            <li class="flex-1"><a>Menu</a></li>
-            <li><a>Images</a></li>
-            <li><a>Results</a></li>
+            <li><a href="/" @click.prevent="navigateTo('/')" class="block py-2 px-4 rounded">
+                    Home
+                </a>
+            </li>
+            <li><a href="/gallery" @click.prevent="navigateTo('/gallery')" class="block py-2 px-4 rounded">
+                    Gallery
+                </a>
+            </li>
         </ul>
     </div>
 </template>
-

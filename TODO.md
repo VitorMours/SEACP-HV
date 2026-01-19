@@ -3,3 +3,4 @@
 - [ ] Criacao de servicos designados para processamento
 - [ ] retorno de imagens dentro da api, de forma a serem visualizadas
 - [ ] Documentacao e testes da api
+- [ ] Ta sendo pesquisado pelo caminho salvo a imagem, e nao pelo nome

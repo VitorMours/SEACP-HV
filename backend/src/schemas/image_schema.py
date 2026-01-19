@@ -18,7 +18,15 @@ class ImageResponse(Image):
     filepath: str
     success: bool
   """
-  
   success: bool
+
+class ImageRequest(Image):
+  """
+  Image Request deve ter os seguintes atributos:
+  
+    name: str
+    mimetype: str
+    filepath: str
+  """
   
   

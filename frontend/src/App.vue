@@ -1,14 +1,18 @@
-<script setup lang="ts">
-import Header from './components/Header.vue';
-import ImageUpload from './components/ImageUpload.vue';
-
-</script>
-
+<!-- App.vue - DEVE TER router-view -->
 <template>
-  <Header/>
-  <ImageUpload/>
+  <!-- O router-view é ESSENCIAL -->
+  <router-view />
 </template>
 
-<style scoped>
+<script setup lang="ts">
+// Debug
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-</style>
+const router = useRouter()
+
+onMounted(() => {
+  console.log('🚀 App.vue montado')
+  console.log('📍 Rota inicial:', router.currentRoute.value.path)
+})
+</script>
