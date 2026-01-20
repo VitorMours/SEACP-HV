@@ -7,7 +7,7 @@ from typing import Annotated, List
 from pathlib import Path
 import os
 
-router = APIRouter(tags=["processamento"], prefix="/images")
+router = APIRouter(tags=["images"], prefix="/images")
 
 @router.get("/", response_model=List[ImageRequest], status_code = status.HTTP_200_OK)
 async def get_all_images():
@@ -20,7 +20,7 @@ async def get_all_images():
                     mime_type, _ = mimetypes.guess_type(item.name)
                     image = ImageRequest(
                         name = item.name,
-                        mimetype = mime_type or "application/octet-stream",
+                        mimetype = mime_type,
                         filepath = str(item)
                     )
                     files_list.append(image)
@@ -31,12 +31,12 @@ async def get_all_images():
 
 
 @router.get("/{filename}", status_code = status.HTTP_200_OK)
-async def download_image(filename: str):
+async def download_raw_image(filename: str):
     try:
-        files_path = Path(__file__).resolve().parent.parent.parent / "files" / "processed" / filename
+        files_path = Path(__file__).resolve().parent.parent.parent / "files" / "raw" / filename
         if not files_path.exists():
             return {"success": False, "error": "Arquivo não encontrado"}
-        return FileResponse(path=files_path, media_type="application/octet-stream", filename=filename)
+        return FileResponse(path=files_path, media_type="image/jpeg", filename=filename)
     except Exception as e:
         return {"success": False, "error": f"{e}"}
 

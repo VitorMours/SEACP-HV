@@ -7,8 +7,8 @@ from backend.src.config.db import Base
 
 class UserModel(Base):
   """
-  Modelo de aramazenagem de informacao dos usuarios que vao ser cadastrados
-  e vao ter dentro do sistema cada uma de seus processamentos graficos
+  Modelo que representa os usuarios dentro da plataforma, de forma a facilitar
+  o relacionamento entre as imagens, e seus proprietarios futuramente.
   """
   
   __tablename__ = "tb_users"

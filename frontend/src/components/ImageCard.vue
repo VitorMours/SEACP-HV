@@ -1,51 +1,49 @@
 <script setup lang="ts">
-  import { ref, onMounted } from "vue"
-  const processing = ref(true);
-  const showErrorDialog = ref(false);
+import { ref, onMounted, onUnmounted } from 'vue'
 
-  async function fetchingImages(){
+const props = defineProps<{
+  imageName: string
+}>()
 
-    try{
-      const response = await fetch("http://localhost:8000/api/v1/images", {
-        method: 'GET'
-      });
-      const result = await response.json();
-      console.log(result);
-      if(!response.ok){
-        showErrorDialog.value = true;
-      }
+const imageUrl = ref<string>('')
 
-    }catch(error){
+onMounted(async () => {
+  const response = await fetch(
+    `http://localhost:8000/api/v1/images/${props.imageName}`
+  )
 
-    }finally{
-      processing.value = false;
-    }
-
+  if (!response.ok) {
+    console.error('Erro ao carregar imagem')
+    return
   }
 
-  onMounted(() => fetchingImages());
+  const blob = await response.blob()
+  imageUrl.value = URL.createObjectURL(blob)
+})
 
+onUnmounted(() => {
+  if (imageUrl.value) {
+    URL.revokeObjectURL(imageUrl.value)
+  }
+})
 </script>
 
 <template>
-  <main class="bg-base-100 min-h-screen">
-    <section
-      class="container mx-auto min-h-screen p-5 bg-base-100 flex items-center justify-center">
-      <div v-if="processing">
-        <span class="loading loading-spinner loading-xl"></span>
-      </div>
-      <div v-else class="card bg-base-100 shadow-md border-md">
-        <figure>
-          <img src="" alt="">
-        </figure>
-        <div class="card-body">
-          <div class="card-title">asd</div>
-          <p>asd</p>
-          <div class="card-actions">asd</div>
+  <div class="hover-3d my-12 mx-2 cursor-pointer">
+    <div class="card bg-base-100 shadow-md border-md w-80 h-96">
+      <figure class="aspect-video overflow-hidden">
+        <img v-if="imageUrl" :src="imageUrl" :alt="imageName" class="h-full w-full object-cover">
+        <div v-else class="flex items-center justify-center h-full bg-base-200">
+          <span class="loading loading-spinner loading-lg"></span>
+        </div>
+      </figure>
+      <div class="card-body">
+        <div class="card-title">{{ imageName }}</div>
+        <p>Imagem processada com sucesso</p>
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary btn-sm">Ver Detalhes</button>
         </div>
       </div>
-
-    </section>
-  </main>
-
+    </div>
+  </div>
 </template>

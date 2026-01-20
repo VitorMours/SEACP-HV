@@ -46,5 +46,12 @@ class ImageService:
             )
             
     @staticmethod 
-    def process_image() -> None:
-        pass
+    def get_image_by_name(filename: str) -> File:
+        try:
+            directory_path = Path(__file__).resolve().parent.parent.parent / "files" / "raw"
+            filepath = directory_path / filename
+            
+            
+        except Exception:
+            pass
+            
