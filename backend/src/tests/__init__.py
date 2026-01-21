@@ -1,16 +1,19 @@
 import logging
 import pytest 
 import sqlalchemy 
-from sqlalchemy.orm import sessionmaker, Session, Engine
+from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime 
 import uuid
+from typing import NewType
+
+Engine = NewType("Engine", any)
 
 from config.db import Base
 
 TEST_DATABASE_URI = "sqlite:///:memory:"
 @pytest.fixture(scope="function")
-def create_engine() -> Engine:
+def create_engine() -> Engine: # type: ignore
   engine = create_engine(TEST_DATABASE_URI,         
     connect_args={"check_same_thread": False}
   )

@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd 
 import numpy as np 
 import logging
+from config.paths import DIRECOTY_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +49,7 @@ class ImageService:
     @staticmethod 
     def get_image_by_name(filename: str) -> File:
         try:
-            directory_path = Path(__file__).resolve().parent.parent.parent / "files" / "raw"
+            directory_path = DIRECOTY_PATH
             filepath = directory_path / filename
             
             

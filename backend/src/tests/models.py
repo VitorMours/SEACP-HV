@@ -11,7 +11,7 @@ class TestImageModel:
     :param session: Description
     :type session: Session
     """
-  
+    pass
   
   
   
