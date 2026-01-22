@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const processing = ref(false);
 const file = ref<File | null>(null);
 const showModal =ref(false);
+
 const result = reactive({
     filepath:"", 
     name:"", 
     mimetype:""
 });
+
+function navigateTo(path: string) {
+    router.push(path)
+}
 
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
@@ -86,7 +93,7 @@ async function toggleProcessing() {
             <div class="modal-action">
                 <form method="dialog ">
                     <!-- Adicionar isso daqui para mostrar o processamento da imagem:  @click.prevent="showProcessing" -->
-                    <button class="m-2 btn btn-primary">Verificar Processamento</button>
+                    <button href="/gallery" @click.prevent="navigateTo('/gallery')" class="m-2 btn btn-primary">Verificar Processamento</button>
                     <button class="m-2 btn">Close</button>
                 </form>
             </div>

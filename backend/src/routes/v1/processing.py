@@ -13,4 +13,4 @@ async def index_processing():
 @router.get("/{filename}", status_code=status.HTTP_200_OK)
 async def process_image(filename: str):
   np_array = ImageProcessingService.process_image(filename)
-  return {"sucess": True, "img_array":np_array}
+  return {"sucess": True, "img_array":np_array.tolist() }
