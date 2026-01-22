@@ -9,6 +9,10 @@ class Image(BaseModel):
   class Config:
     from_attributes = True 
     
+class ImageCreationSchema(Image):
+  pass
+    
+    
 class ImageResponse(Image):
   """
   Image Response deve ter os seguintes atributos:

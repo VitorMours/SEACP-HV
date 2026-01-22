@@ -1,3 +1,4 @@
+from schemas.image_schema import ImageCreationSchema
 from models.image_model import ImageModel
 import os 
 from pathlib import Path
@@ -17,7 +18,7 @@ class ImageRepository:
   DIRECTORY_PATH = DIRECOTY_PATH
 
   @staticmethod
-  def save_image(name: str, file: File) -> None:
+  def save_image(name: str, file: ImageCreationSchema) -> None:
     pass
   
   @staticmethod

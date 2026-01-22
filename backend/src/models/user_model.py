@@ -9,6 +9,19 @@ class UserModel(Base):
   """
   Modelo que representa os usuarios dentro da plataforma, de forma a facilitar
   o relacionamento entre as imagens, e seus proprietarios futuramente.
+  
+  Parametros:
+  -----------
+    id
+    name
+    email
+    password
+    is_active
+    created_at
+    updated_at
+  
+  Retorno:
+  --------
   """
   
   __tablename__ = "tb_users"

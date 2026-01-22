@@ -59,10 +59,23 @@ class ImageModel(Base):
   name = Column(String, nullable=False) 
   filepath = Column(String, nullable=False, unique=True)
   mimetype = Column(String(50))
-  processed = Column(Boolean(False))
+  _processed = Column(Boolean(False))
   created_at  = Column(DateTime, default=datetime.utcnow)
   updated_at  = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
   
+  
+  @property
+  def processed(self) -> None:
+    return self._processed
+  
+  @processed.setter 
+  def processed(self, value: bool) -> None:
+    if value == False or value == 0:
+      self._processed = False
+    elif value == True or value == 1:
+      self._processed = True
+    else:
+      pass
   
   def __str__(self) -> None:
     return f"ImageModel(id={self.id}, name={self.name}, mimetype={self.mimetype}, processed={self.processed})"

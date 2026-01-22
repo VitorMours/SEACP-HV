@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class ImageService:
     
     @staticmethod
-    def ingest_image_in_server(file_directory_path: str, file: File) -> ImageResponse:
+    def ingest_image_in_server(file_directory_path: str, file: File) -> bool:
         try:
             new_filename = rename_image(file)
             file_location = file_directory_path / new_filename
@@ -36,15 +36,10 @@ class ImageService:
 
             logger.info(f"Resposta criada: {response}")
 
-            return response
+            return True
 
         except Exception:
-            return ImageResponse(
-                name="",
-                mimetype=file.content_type if hasattr(file, 'content_type') else "",
-                filepath="",
-                success=False
-            )
+            return False
             
     @staticmethod 
     def get_image_by_name(filename: str) -> File:

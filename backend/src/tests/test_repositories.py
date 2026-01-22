@@ -50,7 +50,6 @@ class TestImageRepository:
     class_ = module.ImageRepository
     assert hasattr(class_, "delete_image")
     
-    
   def test_if_image_repository_have_soft_delete_method(self) -> None:
     module = importlib.import_module("repositories.image_repository")
     class_ = module.ImageRepository
