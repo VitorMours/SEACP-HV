@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { navigateTo } from "../utils/routerUtis";
 
 const props = defineProps<{
   imageName: string
 }>()
 
 const imageUrl = ref<string>('')
+
 
 onMounted(async () => {
   const response = await fetch(
@@ -41,7 +43,7 @@ onUnmounted(() => {
         <div class="card-title">{{ imageName }}</div>
         <p>Imagem processada com sucesso</p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary btn-sm">Ver Detalhes</button>
+          <button class="btn btn-primary btn-sm" @click="navigateTo(`/image/${imageName}`)">Ver Detalhes</button>
         </div>
       </div>
     </div>

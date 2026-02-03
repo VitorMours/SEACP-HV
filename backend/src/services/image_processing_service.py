@@ -6,8 +6,6 @@ import io
 from config.paths import DIRECOTY_PATH
 
 class ImageProcessingService:
-  
-  
   @staticmethod
   def process_image(img) -> np.ndarray | None:
     directory_path = DIRECOTY_PATH
@@ -21,6 +19,12 @@ class ImageProcessingService:
     return img_np
   
   @staticmethod
-  def generate_graphical_image_representation() -> None:
-    pass
+  def generate_gray_scale_image_version(img_np: np.ndarray) -> np.ndarray:
+    gray_img = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
+    success, buffer = cv2.imencode(".jpg", gray_img)
+    
+    if not success:
+        raise ValueError("Não foi possível codificar a imagem")
+    
+    return buffer.to_bytes()
   

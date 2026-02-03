@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import { navigateTo } from "../utils/routerUtis";
 const processing = ref(false);
 const file = ref<File | null>(null);
 const showModal =ref(false);
@@ -13,9 +11,7 @@ const result = reactive({
     mimetype:""
 });
 
-function navigateTo(path: string) {
-    router.push(path)
-}
+
 
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
