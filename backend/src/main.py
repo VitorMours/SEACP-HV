@@ -50,4 +50,4 @@ async def global_index():
     return {"Hello":"World"}
 
 
-app.include_router(routes.router)
+app.include_router(src.routes.router)

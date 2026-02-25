@@ -7,6 +7,7 @@ from typing import Annotated, List
 from pathlib import Path
 import os
 from config.paths import DIRECOTY_PATH
+from workers.image_processor import process_image_in_grayscale
 
 router = APIRouter(tags=["images"], prefix="/images")
 
@@ -46,6 +47,8 @@ async def uploading_image(file: Annotated[UploadFile, File(...)]):
     try:
         files_path = DIRECOTY_PATH / "raw"
         response = ImageService.ingest_image_in_server(files_path, file)        
+       
+        process_image_in_grayscale.delay(file.filename)
         return response
        
     except Exception as e:
