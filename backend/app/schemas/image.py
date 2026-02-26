@@ -4,7 +4,8 @@ class ImageRead(BaseModel):
   pass
 
 class ImageCreate(BaseModel):
-  pass
+  image_name: str
+  filetype: str
 
 class ImageUpdate(BaseModel):
   pass

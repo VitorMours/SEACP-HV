@@ -38,6 +38,11 @@ class TestImageSchemas:
     assert issubclass(delete_class_, BaseModel)
   
   def test_if_image_create_schema_have_correct_fields(self) -> None:
-    module = importlib.import_module("shcmeas.image")
+    module = importlib.import_module("schemas.image")
     class_ = module.ImageCreate
-    assert True
+    assert hasattr(class_, "image_name")
+    assert hasattr(class_, "filetype")
+    
+  def test_if_image_read_schema_have_correct_fields(self) -> None:
+    module = importlib.import_module("schemas.image")
+    class_ = module.ImageRead
