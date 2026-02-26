@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
 class ImageRead(BaseModel):
-  pass
+  image_name: str
+  filetype: str
+  path: str
 
 class ImageCreate(BaseModel):
   image_name: str
