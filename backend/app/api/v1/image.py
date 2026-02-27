@@ -2,7 +2,7 @@ from typing import List
 from app.schemas.image import ImageRead, ImageCreate
 from app.services.image import ImageProcessingService, ImageService
 from fastapi import APIRouter, Depends, UploadFile, File
-
+from uuid import UUID
 router = APIRouter(prefix="/images", tags=["Image"])
 
 
@@ -19,4 +19,12 @@ async def get_all_images(service: ImageService = Depends(get_image_service)):
 @router.post("/") # , response_model = ImageCreate
 async def update_image_in_system(file: UploadFile = File(...), service: ImageService = Depends(get_image_service)):
   return service.ingest_image(file)
+
+@router.get("/{image_id}")
+async def get_image_by_id(image_id: UUID):
+  pass
+
+@router.get("/process/{image_id}")
+async def Process_image_by_id():
+  pass
   

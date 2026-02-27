@@ -51,3 +51,6 @@ class TestImageSchemas:
     assert "image_name" in fields
     assert "filetype" in fields
     assert "path" in fields
+
+  def test_if_image_delete_schema_have_correct_fields(self) -> None:
+    pass
