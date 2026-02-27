@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://go-skill-icons.vercel.app/">
     <img
-      src="https://go-skill-icons.vercel.app/api/icons?i=python,pytest,fastapi,sqlalchemy,docker,typescript,vue,vite,daisyui,vitest&theme=dark"
+      src="https://go-skill-icons.vercel.app/api/icons?i=opencv,langchain,python,pytest,fastapi,redis,celery,sqlalchemy,docker,typescript,vue,vite,daisyui,vitest&theme=dark&perline=7"
     />
   </a>
 </p>
