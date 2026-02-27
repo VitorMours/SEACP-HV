@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class ImageRead(BaseModel):
   image_name: str
-  image: bytes
+  image: str
   filetype: str
   path: str
 

@@ -20,6 +20,7 @@ ENV/
 #Files Directory
 files/
 file/
+media/
 
 # Python tooling
 .pytest_cache/
