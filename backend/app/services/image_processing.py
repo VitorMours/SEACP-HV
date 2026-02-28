@@ -21,29 +21,48 @@ class ImageProcessingService:
   def __init__(self) -> None:
     self.raw_image_path = config.raw_image_dir
     self.processed_image_path = config.processed_image_dir
+    self.gray_image_path = config.gray_image_dir
 
-  @staticmethod
-  def transform_image_in_array(self, id: int) -> None:
+  def transform_image_in_array(self, img_base64: base64) -> None:
     """
     Metodo relacionado a receber a imagem presente dentro do sistema, de forma 
     a transformar ela em um array bidimensional de dados estruturados em pixels,
     de forma a facilitar e possibilitar o processamento por parte dos sistemas 
     e por parte dos outros metodos do sistema
     """
-    if img is None and img_path is None:
-      raise ValueError("It's necessary to pass the file or the file path")
-    if img is None and img_path is not None:
-      pass
+    image_bytes = base64.b64decode(img_base64)
+    np_array = np.frombuffer(image_bytes, dtype=np.uint8)
+    img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     
-    img = cv2.imread(img)
-    print(img)
+    if img is None:
+        raise ValueError("Não foi possível decodificar a imagem")
     return img
 
-  @staticmethod
-  def convert_image_to_grayscale(self, img: np.ndarray) -> None:
+  def convert_image_to_grayscale(self, img_base64: ImageRead) -> None:
+    image_bytes = base64.b64decode(img_base64.image)
+    filename = img_base64.image_name
+    output_path = os.path.join(self.gray_image_path, f"{filename}_gray.png")
+    np_array = np.frombuffer(image_bytes, dtype=np.uint8)
+    img = cv2.imdecode(np_array, cv2.IMREAD_GRAYSCALE)
+    success = cv2.imwrite(output_path, img)
+    
+    if success is None:
+        raise ValueError("Não foi possível decodificar a imagem")
+    return img
+
+  def _normalize_image_hist(self, np_img: np.ndarray) -> None:
+    img_equalized = cv2.equalizeHist(np_img)
+    return img_equalized
+    
+  def process_image(self, image: ImageRead) -> None:
+    filename = image.image_name
+    gray_image = self.convert_image_to_grayscale(image.image)
+    normalized_image = self._normalize_image_hist(gray_image)
+
+    
+  def _save_img(self, image, path: Path) -> None:
     pass
     
-
-  @staticmethod 
-  def normalize_image_hist(self) -> None:
-    pass
+    
+    
+    
