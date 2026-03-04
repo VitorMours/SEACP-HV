@@ -1,0 +1,54 @@
+from typing import List
+
+from app.schemas.image import ImageRead, ImageCreate
+from app.services.image import ImageService
+from app.services.image_processing import ImageProcessingService
+from app.models import get_session
+from app.repository.image_repository import ImageRepository
+from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, Response
+from sqlmodel import Session
+
+def get_image_repository(session: Session = Depends(get_session)) -> ImageRepository:
+    return ImageRepository(session)
+
+def get_image_service(repository: ImageRepository = Depends(get_image_repository)) -> ImageService:
+    return ImageService(repository)
+
+def get_image_processing_service() -> ImageProcessingService:
+  return ImageProcessingService()
+
+
+router = APIRouter(prefix="/images", tags=["Image"])
+
+@router.get("/", response_model = List[ImageRead])
+async def get_all_images(service: ImageService = Depends(get_image_service)):
+  return service.return_all_images()
+
+@router.post("/", response_model = ImageCreate)
+async def update_image_in_system(file: UploadFile = File(...), image_service: ImageService = Depends(get_image_service)):
+  return image_service.ingest_image(file)
+
+@router.get("/{image_id}", response_model = ImageRead)
+async def get_image_by_id(image_id: int, image_service: ImageService = Depends(get_image_service)):
+  try:
+    return image_service.return_image_by_id(image_id)
+  except ValueError as e:
+    raise HTTPException(status_code=404, detail=str(e))
+
+@router.get("/process/{image_id}")
+async def processed_image_by_id(image_id: int, image_service = Depends(get_image_service), processing_service = Depends(get_image_processing_service)):
+  result: ImageRead = image_service.return_image_by_id(image_id)
+  array = processing_service.process_image(result.image)
+  return Response(
+        content=array.tobytes(),
+        media_type="image/png"
+    )
+
+@router.get("/process/{image_id}/grayscale")
+async def processed_image_by_id_as_grayscale(image_id: int, image_service = Depends(get_image_service), processing_service = Depends(get_image_processing_service)):
+  result: ImageRead = image_service.return_image_by_id(image_id)
+  array = processing_service.convert_image_to_grayscale(result)
+  return Response(
+        content=array.tobytes(),
+        media_type="image/png"
+    )

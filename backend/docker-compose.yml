@@ -1,0 +1,10 @@
+services:
+  lillia:
+    build: .
+    container_name: lillia 
+    ports:
+      - "8000:8000"
+      
+    restart: always
+
+    
