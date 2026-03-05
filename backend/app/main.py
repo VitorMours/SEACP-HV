@@ -11,7 +11,6 @@ create_tables()
 
 
 app = FastAPI(title = config.app_name)
-<<<<<<< HEAD
 
 origins = ["*"]
 app.add_middleware(
@@ -23,6 +22,3 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
-=======
-app.include_router(image_router)
->>>>>>> a9f71f83fa96be52eb733160fd28d8b073155a4e
