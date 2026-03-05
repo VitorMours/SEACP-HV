@@ -11,6 +11,9 @@ from fastapi import File
 from sqlmodel import Session
 import shutil
 import base64
+import logging 
+
+logger = logging.getLogger(__name__)
 
 class ImageService:
   """
@@ -27,6 +30,7 @@ class ImageService:
     self.processed_image_path = config.processed_image_dir
 
   def ingest_image(self, file: File) -> ImageCreate:
+    logging.info("[SERVICE] Ingesting image")
     with open(f"{self.raw_image_path}/{file.filename}", "wb") as buffer:
       shutil.copyfileobj(file.file, buffer)
     filetype = Path(file.filename).suffix.replace(".", "")
