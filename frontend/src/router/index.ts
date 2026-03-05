@@ -1,13 +1,8 @@
-import { createRouter, createWebHistory, type Router } from "vue-router";
-import routes from "./routes";
+import { createRouter, createWebHistory } from 'vue-router'
 
-const router: Router = createRouter({
-  routes,
+const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-});
-
-
-router.afterEach((to, from) => {
-  console.log(`Navegando de ${from.path} para ${to.path}`)
+  routes: [],
 })
-export default router;
+
+export default router

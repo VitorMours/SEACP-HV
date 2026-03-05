@@ -1,5 +1,5 @@
 from typing import List
-
+from app.workers.image import process_image_to_histogram_analysis
 from app.schemas.image import ImageRead, ImageCreate
 from app.services.image import ImageService
 from app.services.image_processing import ImageProcessingService
@@ -26,7 +26,11 @@ async def get_all_images(service: ImageService = Depends(get_image_service)):
 
 @router.post("/", response_model = ImageCreate)
 async def update_image_in_system(file: UploadFile = File(...), image_service: ImageService = Depends(get_image_service)):
-  return image_service.ingest_image(file)
+  
+  image = image_service.ingest_image(file)
+  process_image_to_histogram_analysis.delay(image.id)
+  
+  return image
 
 @router.get("/{image_id}", response_model = ImageRead)
 async def get_image_by_id(image_id: int, image_service: ImageService = Depends(get_image_service)):
@@ -38,7 +42,7 @@ async def get_image_by_id(image_id: int, image_service: ImageService = Depends(g
 @router.get("/process/{image_id}")
 async def processed_image_by_id(image_id: int, image_service = Depends(get_image_service), processing_service = Depends(get_image_processing_service)):
   result: ImageRead = image_service.return_image_by_id(image_id)
-  array = processing_service.process_image(result.image)
+  array = processing_service.process_image(result)
   return Response(
         content=array.tobytes(),
         media_type="image/png"

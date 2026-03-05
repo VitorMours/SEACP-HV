@@ -56,9 +56,11 @@ class ImageProcessingService:
     
   def process_image(self, image: ImageRead) -> None:
     filename = image.image_name
-    gray_image = self.convert_image_to_grayscale(image.image)
+    gray_image = self.convert_image_to_grayscale(image)
     normalized_image = self._normalize_image_hist(gray_image)
-
+    output_path = os.path.join(self.processed_image_path, f"{filename}_processed.png")
+    cv2.imwrite(output_path, normalized_image)
+    return normalized_image
     
   def _save_img(self, image, path: Path) -> None:
     pass

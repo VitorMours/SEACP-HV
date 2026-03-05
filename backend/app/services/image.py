@@ -34,7 +34,7 @@ class ImageService:
     new_image = Image(name=file.filename, was_processed=False, path=str(Path(file.filename)))
     self.repository.save_image(new_image)
     
-    return ImageCreate(image_name=file.filename, filetype=filetype)
+    return ImageCreate(image_name=file.filename, filetype=filetype, id = new_image.id)
 
   def return_all_images(self) -> list[Path]:
     images = list()
