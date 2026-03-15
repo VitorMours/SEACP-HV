@@ -63,3 +63,4 @@ async def processed_image_by_id_as_grayscale(image_id: int, image_service = Depe
         content=array.tobytes(),
         media_type="image/png"
     )
+  
