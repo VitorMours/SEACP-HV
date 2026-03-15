@@ -1,11 +1,11 @@
 /**
  * Serviço responsável por gerenciar a comunicação com a API de imagens.
- * de forma a fazer somente o gerenciamento de arquivos, e não fazer a 
+ * de forma a fazer somente o gerenciamento de arquivos, e não fazer a
  * parte de solicitação e consumo do processamento das imagens
  * @class ImageService
  */
 class ImageService {
-  
+
   /**
    * Envia um arquivo de imagem para o servidor via POST.
    * * @param {File} file - O objeto de arquivo (Blob) a ser enviado.
@@ -22,7 +22,9 @@ class ImageService {
         method: 'POST',
         body: formData,
       })
-      return response.ok
+      if(response.ok){
+        return response;
+      }
     } catch (error) {
       console.error("Erro ao enviar imagem:", error)
       return false
@@ -36,15 +38,21 @@ class ImageService {
    * @async
    */
   static async getAllImages(): Promise<Array<File>> {
-    console.log("Getting Files");
-    const response = await fetch("http://localhost:8000/api/v1/images", { method: 'GET' });
+    try{
 
-    if (!response.ok) {
-      throw new Error("Was not possible to fetch the images");
+
+      console.log("Getting Files");
+      const response = await fetch("http://localhost:8000/api/v1/images", { method: 'GET' });
+
+      if (!response.ok) {
+        throw new Error("Was not possible to fetch the images");
+      }
+
+      const data = await response.json();
+      return data as Array<File>;
+    }catch(error) {
+      console.error("Erro ao tentar obter as imagens da galeria", error);
     }
-
-    const data = await response.json();
-    return data as Array<File>;
   }
 
   /**

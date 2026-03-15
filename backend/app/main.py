@@ -5,13 +5,14 @@ from app.api import api_router
 from app.utils.files import create_media_file_structure
 from app.models import create_tables
 from app.core.logging import get_logger
-
+from fastapi.staticfiles import StaticFiles
 
 create_media_file_structure(config.images_dir)
 create_tables()
 get_logger(__name__)
 
 app = FastAPI(title = config.app_name)
+
 
 origins = ["*"]
 app.add_middleware(
@@ -23,3 +24,9 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+
+
+app.mount("/media", StaticFiles(directory="app/media"), name="media")
+
+
+

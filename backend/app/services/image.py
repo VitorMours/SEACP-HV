@@ -40,23 +40,19 @@ class ImageService:
     
     return ImageCreate(image_name=file.filename, filetype=filetype, id = new_image.id)
 
-  def return_all_images(self) -> list[Path]:
-    images = list()
+  def return_all_images(self) -> list[ImageRead]:
+    images = []
     for filename in os.listdir(self.raw_image_path):
-      if filename.endswith((".jpg",".jpeg",".png",".webp")):
+      if filename.endswith((".jpg", ".jpeg", ".png", ".webp")):
         full_path = os.path.join(self.raw_image_path, filename)
-        
-        with open(full_path, "rb") as f:
-          image_bytes = f.read()
-        new_image = ImageRead(
-          image = base64.b64encode(image_bytes).decode("utf-8"),
+        images.append(ImageRead(
           image_name=filename,
           filetype=filename.split(".")[-1],
           path=full_path
-        )
-        images.append(new_image)
+        ))
     return images
-  
+
+
   def return_image_by_id(self, id: int) -> ImageRead:
     image = self.repository.fetch_image_by_id(id)
     

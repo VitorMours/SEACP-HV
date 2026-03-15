@@ -4,6 +4,9 @@ from app.repository.image_repository import ImageRepository
 from app.models.image import Image
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+import pandas as pd
 from pathlib import Path
 from app.core.config import config
 from app.schemas.image import ImageRead, ImageCreate
@@ -66,7 +69,36 @@ class ImageProcessingService:
     output_path = os.path.join(self.processed_image_path, f"{filename}_processed.png")
     cv2.imwrite(output_path, normalized_image)
     return normalized_image
-    
+   
+
+
+  def generate_image_histogram(self, image: ImageRead) -> None:
+      """
+        Funcao de processamento de image, focada em receber uma imagem,
+        e gerar um histograma da mesma de forma que 
+      """
+      
+      pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   def _save_img(self, image, path: Path) -> None:
     pass
     
