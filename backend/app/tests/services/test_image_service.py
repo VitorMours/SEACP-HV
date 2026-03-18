@@ -26,3 +26,6 @@ class TestImageService:
             assert inspect.isclass(ImageProcessingService)
         except ImportError:
             raise ImportError("Was not possible to import the ImageProcessingService class")
+
+
+    

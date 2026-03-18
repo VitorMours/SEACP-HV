@@ -1,10 +1,16 @@
 from pydantic import BaseModel 
 
 class UserRead(BaseModel):
-    pass 
+    id: int
+    first_name: str
+    last_name: str 
+    email: str 
 
 class UserCreate(BaseModel):
-    pass
+    first_name: str 
+    last_name: str 
+    email: str 
+    password: str 
 
 class UserDelete(BaseModel):
     pass 
