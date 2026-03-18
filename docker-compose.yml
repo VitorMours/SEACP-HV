@@ -1,0 +1,71 @@
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  lillia:
+    build: ./backend
+    container_name: lillia
+    user: root
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/code:z
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  rabbit:
+    build: ./backend
+    container_name: rabbit
+    user: root
+    command: python -m celery -A app.workers.celery worker --loglevel=info
+    volumes:
+      - ./backend:/code:z
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  garden:
+    image: mher/flower
+    container_name: garden
+    command: celery --broker=redis://redis:6379/0 flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      rabbit:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app:z
+      - /app/node_modules
+    depends_on:
+      - lillia
+    restart: unless-stopped

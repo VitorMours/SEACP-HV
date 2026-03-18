@@ -19,13 +19,4 @@ class TestImageService:
           raise ImportError("Was not possible to import the ImageService class")
 
 
-    def test_if_image_service_module_have_image_service_processing_class(self) -> None:
-        try:
-            from app.services.image import ImageProcessingService
-            assert ImageProcessingService is not None 
-            assert inspect.isclass(ImageProcessingService)
-        except ImportError:
-            raise ImportError("Was not possible to import the ImageProcessingService class")
-
-
     

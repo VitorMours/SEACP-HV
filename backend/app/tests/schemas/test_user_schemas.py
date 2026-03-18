@@ -31,14 +31,25 @@ class TestUserSchema:
     def test_if_user_schema_classes_have_correct_superclass(self) -> None:
         module = importlib.import_module("app.schemas.user")
         read_schema = module.UserRead
-        self.assertTrue(issubclass(read_schema, BaseModel))
+        assert issubclass(read_schema, BaseModel)
         create_schema = module.UserCreate 
-        self.assertTrue(issubclass(create_schema, BaseModel))
+        assert issubclass(create_schema, BaseModel)
 
     def test_if_user_read_schema_have_correct_fields(self) -> None:
         module = importlib.import_module("app.schemas.user")
         read_schema = module.UserRead 
-        assert isinstance(read_schema.model_fields["id"], int)
-        assert isinstance(read_schema.model_fields["first_name"], str)
-        assert isinstance(read_schema.model_fields["last_name"], str)
-
+        assert read_schema.model_fields["id"].annotation is int
+        assert read_schema.model_fields["first_name"].annotation is str
+        assert read_schema.model_fields["last_name"].annotation is str
+        assert read_schema.model_fields["email"].annotation is str 
+        
+    def test_if_user_create_schema_have_correct_fields(self) -> None:
+        module = importlib.import_module("app.schemas.user")
+        create_schema = module.UserCreate
+        assert create_schema.model_fields["first_name"].annotation is str 
+        assert create_schema.model_fields["last_name"].annotation is str 
+        assert create_schema.model_fields["email"].annotation is str 
+        assert create_schema.model_fields["password"].annotation is str 
+        
+        
+        

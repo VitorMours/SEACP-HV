@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import ImageService from "@/services/ImageService.ts";
+import ImageService from "../services/imageService";
 
 interface Image {
   id: number | null;
