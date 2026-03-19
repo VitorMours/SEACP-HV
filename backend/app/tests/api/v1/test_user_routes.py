@@ -3,8 +3,6 @@ import importlib
 import inspect 
 from fastapi import APIRouter
 
-
-
 class TestUserV1Route:
     def test_if_can_import_the_users_route_modules(self) -> None:
         try:
@@ -16,7 +14,7 @@ class TestUserV1Route:
 
     def test_if_user_routesmodule_have_router(self) -> None:
         try:
-            from app.api.v1.user import router
+            from app.api.v1.user import router 
             assert router is not None 
             
         except ImportError:

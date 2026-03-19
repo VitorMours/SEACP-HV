@@ -41,6 +41,7 @@ class ImageService:
     return ImageCreate(image_name=file.filename, filetype=filetype, id = new_image.id)
 
   def return_all_images(self) -> list[ImageRead]:
+
     images = []
     for filename in os.listdir(self.raw_image_path):
       if filename.endswith((".jpg", ".jpeg", ".png", ".webp")):
@@ -50,6 +51,7 @@ class ImageService:
           filetype=filename.split(".")[-1],
           path=full_path
         ))
+    logging.info("[SERVICE] Returning Images")
     return images
 
 
@@ -63,7 +65,9 @@ class ImageService:
     
     with open(full_path, "rb") as f:
         image_bytes = f.read()
-    
+
+    logging.info("[SERVICE] Returning Image by id")
+
     return ImageRead(
         image=base64.b64encode(image_bytes).decode("utf-8"),
         image_name=image.name,

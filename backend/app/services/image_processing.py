@@ -56,10 +56,14 @@ class ImageProcessingService:
     
     if success is None:
         raise ValueError("Não foi possível decodificar a imagem")
+    logging.info("[SERVICE] Converting Image to gray scale")
+
     return img
 
   def _normalize_image_hist(self, np_img: np.ndarray) -> None:
     img_equalized = cv2.equalizeHist(np_img)
+    logging.info("[SERVICE] Equalizing the image histogram")
+
     return img_equalized
     
   def process_image(self, image: ImageRead) -> None:
@@ -68,10 +72,10 @@ class ImageProcessingService:
     normalized_image = self._normalize_image_hist(gray_image)
     output_path = os.path.join(self.processed_image_path, f"{filename}_processed.png")
     cv2.imwrite(output_path, normalized_image)
+    logging.info("[SERVICE] processing")
+
     return normalized_image
    
-
-
   def generate_image_histogram(self, image: ImageRead) -> None:
       """
         Funcao de processamento de image, focada em receber uma imagem,
@@ -80,7 +84,13 @@ class ImageProcessingService:
       
       pass
 
-
+  def extract_image_rgb_channels(self, image: ImageRead) -> None:
+    """
+      Funcao de processamento focado em separar os canais de uma imagem
+      RGB de forma a trabalhar com os canais singularmente.
+    """
+    
+    pass
 
 
 
